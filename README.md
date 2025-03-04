@@ -1,10 +1,10 @@
 ## Installation
 1. In your browser, install the Tampermonkey extension. Greasemonkey or other user script extensions *might* work, but it's only been tested with Tampermonkey (tested in Firefox).
-2. Install the WhazzKarafun.user.js script into it by going to the extension's settings > Utilities > Import from file
-3. Import the WhazzKarafun.sb file into Streamer.bot as normal
+2. Install the WhazzKarafun.user.js script into it by clicking on the [raw version stored in Github](https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js). The extension should come up and offer to install it. Click "(Re)Install"
+3. Import the [WhazzKarafun.sb](https://raw.githubusercontent.com/WhazzItToYa/StreamerbotKarafun/refs/heads/main/WhazzKarafun.sb) import string into Streamer.bot as normal
 
 ## Usage
-1. Make sure you have the streamerbot websocket server enabled under Servers/Clients > Websocket Server, on port 8080
+1. Make sure you have the streamerbot websocket server enabled under Servers/Clients > Websocket Server, on port 8080[*](#Notes)
 2. Bring up the Karafun remote control site.  The user.js script will detect changes in the song and send them to streamer.bot.
 3. In Streamer.bot, create an action, and add the Song Update trigger to it. The action will be invoked when a new song starts, with the following arguments:
   * `song` : The name of the song.
@@ -21,3 +21,10 @@ By default, the script will communicate with the streamer.bot websocket server o
 If the Karafun remote site disconnects from the Karafun app, or loses its connection to Streamer.bot, then the triggers won't occur until the site reconnects.
 
 The technique of scraping the artist & song data off of the site using a userscript is inherently fragile, and changes to the site could break it.  I'm unlikely to notice, since I probably am not using it, so bug me via the streamer.bot Discord for fixes.
+
+## Contact
+
+* For feature requests or bug reports: https://github.com/WhazzItToYa/StreamerbotKarafun/issues 
+* Or submit a pull request
+* Or if you can't do either of those things, ping me through the Streamer.bot Discord in the [Karafun Song Info post](https://discord.com/channels/834650675224248362/1346360720773615718)
+
