@@ -4,8 +4,7 @@
 // @version      2025-03-03
 // @description  Scrapes Currently playing song info from the Karafun Remote
 // @author       WhazzItToYa
-// @include      https://www.karafun.*/*/
-// @include      https://www.karafun.*/*/playlist*
+// @include        /^https?:\/\/www.karafun\..*\/[0-9]+\/.*/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require      https://unpkg.com/@streamerbot/client/dist/streamerbot-client.js
 // @grant        none
@@ -16,11 +15,17 @@
 
     const STREAMERBOT_PORT = 8080;
 
+    let connected = false;
+
     console.log("STARTING");
     let sbot;
     try {
         console.log("Before sbot");
-        sbot = new StreamerbotClient({port: STREAMERBOT_PORT});
+        sbot = new StreamerbotClient({
+            port: STREAMERBOT_PORT,
+            onConnect: () => {connected = true;},
+            onDisconnect: () => {connected = false;}
+        });
         console.log("After sbot");
     } catch (e) {
         console.log(e);
@@ -34,7 +39,13 @@
     {
         // Look for the element that has the current song info.
         songInfoElt = document.querySelector('button.touch-manipulation.transition-all');
-        if (songInfoElt == null) return;
+        if (songInfoElt == null) {
+            console.log("Didn't find current song element");
+            updateStatus(connected, false);
+            // Do something to indicate that the script can't find what it's looking for.
+            return;
+        }
+        updateStatus(connected, true);
 
         // Found it.  Find the song/artist.
         let song = "";
@@ -71,5 +82,26 @@
     }
 
     setInterval(scrapeSongInfo, 1000);
+
+    function updateStatus(connected, scraped)
+    {
+        let statusElt = document.getElementById("sbotStatus");
+        if (statusElt == null)
+        {
+            console.log("Making new status elt");
+            statusElt = document.createElement("div");
+            statusElt.id = "sbotStatus";
+            statusElt.style.backgroundColor = "green";
+            statusElt.style.color = "red";
+            statusElt.style.zIndex = 10000;
+            statusElt.style.position = "fixed";
+            statusElt.style.left = "0px";
+            statusElt.style.bottom = "0px";
+            statusElt.innerHTML = '<span id="sbotStatusText">Hello!</span>';
+            document.body.appendChild(statusElt);
+        }
+        let statusText = document.getElementById("sbotStatusText");
+        statusText.textContent = scraped ? (connected ? "CONNECTED" : "NOT CONNECTED") : "BROKEN";
+    }
 
 })();
