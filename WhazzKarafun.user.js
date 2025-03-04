@@ -4,8 +4,8 @@
 // @version      2025-03-03
 // @description  Scrapes Currently playing song info from the Karafun Remote
 // @author       WhazzItToYa
-// @match        https://www.karafun.com/*/
-// @match        https://www.karafun.com/*/playlist*
+// @match        https://www.karafun.*/*/
+// @match        https://www.karafun.*/*/playlist*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require      https://unpkg.com/@streamerbot/client/dist/streamerbot-client.js
 // @grant        none
