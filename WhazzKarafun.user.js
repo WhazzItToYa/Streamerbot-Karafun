@@ -1,8 +1,11 @@
 // ==UserScript==
 // @name         Scrape Karafun Remote Song Info
 // @namespace    http://tampermonkey.net/
-// @version      2025-03-03
-// @description  Scrapes Currently playing song info from the Karafun Remote
+// @version      2025-03-04
+// @updateURL    https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js
+// @downloadURL  https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js
+// @supportURL   https://github.com/WhazzItToYa/StreamerbotKarafun/issues
+// @description  Scrapes Currently playing song info from the Karafun Remote to trigger Streamer.bot
 // @author       WhazzItToYa
 // @include        /^https?:\/\/www.karafun\..*\/[0-9]+\/.*/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
