@@ -129,13 +129,13 @@
     </style>
     <div class="sbotStatusBox" >
       <div class="imgGroup">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Simple_Music.svg">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited scrapingBroken" >
+        <img title="Song info located" src="https://upload.wikimedia.org/wikipedia/commons/3/35/Simple_Music.svg">
+        <img title="Song info not found! Script may need an update." src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited scrapingBroken" >
       </div>
       <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Arrow_slim_right.svg">
       <div class="imgGroup">
-        <img src="https://streamer.bot/logo.svg">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited disconnected" >
+        <img title="Connected to Streamer.bot" src="https://streamer.bot/logo.svg">
+        <img title="Not connected to Streamer.bot" src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited disconnected" >
       </div>
     </div>
 `
