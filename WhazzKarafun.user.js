@@ -91,17 +91,66 @@
             console.log("Making new status elt");
             statusElt = document.createElement("div");
             statusElt.id = "sbotStatus";
-            statusElt.style.backgroundColor = "green";
-            statusElt.style.color = "red";
             statusElt.style.zIndex = 10000;
             statusElt.style.position = "fixed";
-            statusElt.style.left = "0px";
-            statusElt.style.bottom = "0px";
-            statusElt.innerHTML = '<span id="sbotStatusText">Hello!</span>';
+            statusElt.style.right = "3.5rem";
+            statusElt.style.bottom = "5px";
+            statusElt.innerHTML= `
+    <style>
+      .sbotStatusBox {
+          display: block;
+          background-color: pink;
+          height: 3rem;
+          padding: 0.5em;
+      }
+      .sbotStatusBox img {
+          height: 100%;
+          width: auto;
+      }
+      .imgGroup {
+          display: inline-block;
+          position: relative;
+          height: 100%;
+      }
+      .imgGroup .prohibited {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+      }
+      .prohibited {
+          display: inline;
+      }
+      .scraped .prohibited.scrapingBroken {
+          display: none;
+      }
+      .connected .prohibited.disconnected {
+          display: none;
+      }
+    </style>
+    <div class="sbotStatusBox" >
+      <div class="imgGroup">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Simple_Music.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited scrapingBroken" >
+      </div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Arrow_slim_right.svg">
+      <div class="imgGroup">
+        <img src="https://streamer.bot/logo.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited disconnected" >
+      </div>
+    </div>
+`
             document.body.appendChild(statusElt);
         }
-        let statusText = document.getElementById("sbotStatusText");
-        statusText.textContent = scraped ? (connected ? "CONNECTED" : "NOT CONNECTED") : "BROKEN";
+        if (connected) {
+            statusElt.classList.add("connected");
+        } else {
+            statusElt.classList.remove("connected");
+        }
+        if (scraped) {
+            statusElt.classList.add("scraped");
+        } else {
+            statusElt.classList.remove("scraped");
+        }
     }
 
 })();
