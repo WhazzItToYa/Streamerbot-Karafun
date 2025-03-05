@@ -11,6 +11,20 @@
   * `artist` : The artist of the song.
 4. If the queue runs out of songs, then the "Song Stopped" trigger will fire.
 
+### Status Icon
+![GoodStatus](assets/goodstatus.png "Good Status indicator")
+
+When the script is active on a page, it will display status icons. The note icon indicates that the script has located where the song info lives on the page, and will be watching it.
+
+The Streamer.bot icon indicates that the script is connected to Streamer.bot's websocket server.
+
+![BadStatus](assets/badstatus.png "Bad Status indicator")
+
+If there's a "no go" indicator across Streamer.bot, it is not connected.
+
+If the "no go" is on the note icon, it means that the script is unable to find the song information in the page.  If you believe that you are on a valid remote control page, then Karafun might have changed their website, and the script will need an update. If the status indicator doesn't show up at all, the script may also need an update. See below for contact information. 
+
+
 ## Configuration
 By default, the script will communicate with the streamer.bot websocket server on port 8080.  If you need to change this, update the following line in the user.js script:
 ```javascript
