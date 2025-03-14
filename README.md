@@ -1,5 +1,5 @@
 ## Installation
-1. In your browser, install the Tampermonkey extension. Greasemonkey or other user script extensions *might* work, but it's only been tested with Tampermonkey (tested in Firefox).
+1. In your browser, install the [Tampermonkey extension](https://www.tampermonkey.net/). Greasemonkey or other user script extensions *might* work, but it's only been tested with Tampermonkey (tested in Firefox).
 2. Install the WhazzKarafun.user.js script into it by clicking on the [raw version stored in Github](https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js). The extension should come up and offer to install it. Click "(Re)Install"
 3. Import the [WhazzKarafun.sb](https://raw.githubusercontent.com/WhazzItToYa/StreamerbotKarafun/refs/heads/main/WhazzKarafun.sb) import string into Streamer.bot as normal
 
