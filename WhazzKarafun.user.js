@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Scrape Karafun Remote Song Info
 // @namespace    http://tampermonkey.net/
-// @version      2025-03-04
+// @version      2025-05-05
 // @updateURL    https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js
 // @downloadURL  https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js
 // @supportURL   https://github.com/WhazzItToYa/StreamerbotKarafun/issues
@@ -10,29 +10,46 @@
 // @include        /^https?:\/\/www.karafun\..*\/[0-9]+\/.*/
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require      https://unpkg.com/@streamerbot/client/dist/streamerbot-client.js
-// @grant        none
+// @grant       GM_getValue
+// @grant       GM_setValue
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    const STREAMERBOT_PORT = 8080;
-
     let connected = false;
 
     console.log("STARTING");
+
     let sbot;
-    try {
-        console.log("Before sbot");
-        sbot = new StreamerbotClient({
-            port: STREAMERBOT_PORT,
-            onConnect: () => {connected = true;},
-            onDisconnect: () => {connected = false;}
-        });
-        console.log("After sbot");
-    } catch (e) {
-        console.log(e);
+    function initSBot(host, port)
+    {
+        if (sbot != null)
+        {
+            sbot.disconnect();
+            sbot = null;
+        }
+        try {
+            GM_setValue("sbotHost", host);
+            GM_setValue("sbotPort", port);
+            
+            console.log("Before sbot");
+            sbot = new StreamerbotClient({
+                host: host,
+                port: port,
+                onConnect: () => {connected = true;},
+                onDisconnect: () => {connected = false;}
+            });
+            console.log("After sbot");
+        } catch (e) {
+            console.log(e);
+        }
     }
+
+    let initialHost = GM_getValue("sbotHost", "127.0.0.1");
+    let initialPort = GM_getValue("sbotPort", 8080);
+    initSBot(initialHost, initialPort);
+    
     let songInfoElt = null;
 
     let latestSong = "";
@@ -129,6 +146,27 @@
       .connected .prohibited.disconnected {
           display: none;
       }
+      #sbotStatusIcon {
+          cursor: pointer;
+      }
+      .dialog {
+         position: absolute;
+         bottom: 2em;
+         right: 2em;
+         padding: 0.5em;
+         background-color: purple;
+         border: solid black 2px;
+         white-space: nowrap;
+      }
+      .dialog label {
+         display: inline-block;
+         text-align: right;
+         min-width: 4em;
+      }
+      .dialog [type="button"] {
+         border: solid black 1px;
+         float: right;
+      }
     </style>
     <div class="sbotStatusBox" >
       <div class="imgGroup">
@@ -136,13 +174,43 @@
         <img title="Song info not found! Script may need an update." src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited scrapingBroken" >
       </div>
       <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Arrow_slim_right.svg">
-      <div class="imgGroup">
+      <div class="imgGroup" id="sbotStatusIcon">
         <img title="Connected to Streamer.bot" src="https://streamer.bot/logo.svg">
         <img title="Not connected to Streamer.bot" src="https://upload.wikimedia.org/wikipedia/commons/7/70/Prohibited-icon.svg" class="prohibited disconnected" >
       </div>
+          <div class="dialog" id="sbotConfig" style="display:none;">
+             <h2>Streamer.bot websocket</h2>
+             <div><label for="sbServer">address:</label><input id="sbServer" type="text" value="127.0.0.1"></div>
+             <div><label for="sbPort">port:</label><input id="sbPort" type="number" min="1" max="65535" step="1" value="8080"></div>
+             <div><input type="button" id="sbotConfigOK" value="OK"></div>
+          </div>
     </div>
 `
             document.body.appendChild(statusElt);
+
+            // Open/close/process streamer.bot websocket config dialog
+            document.getElementById("sbServer").value = initialHost;
+            document.getElementById("sbPort").value = initialPort;
+
+            let sbotStatusIcon = document.getElementById("sbotStatusIcon");
+            let sbotConfig = document.getElementById("sbotConfig");
+            let toggle = function () {
+                console.log("Clicked");
+                if (sbotConfig.style.display === "block") {
+                    sbotConfig.style.display = "none";
+                    console.log("vis: none");
+
+                    // Process the new values
+                    let addr = document.getElementById("sbServer").value;
+                    let port = document.getElementById("sbPort").value;
+                    initSBot(addr, port);
+                } else {
+                    sbotConfig.style.display = "block";
+                    console.log("vis: block");
+                }
+            }
+            sbotStatusIcon.onclick = toggle;
+            document.getElementById("sbotConfigOK").onclick = toggle;
         }
         if (connected) {
             statusElt.classList.add("connected");

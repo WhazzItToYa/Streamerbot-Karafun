@@ -26,10 +26,7 @@ If the "no go" is on the note icon, it means that the script is unable to find t
 
 
 ## Configuration
-By default, the script will communicate with the streamer.bot websocket server on port 8080.  If you need to change this, update the following line in the user.js script:
-```javascript
-    const STREAMERBOT_PORT = 8080;
-```
+By default, the script will communicate with the streamer.bot websocket server on port 8080.  If you need to change this, click on the Streamer.bot icon in the status box, and enter the new host & port of the Streamer.bot websocket server.
 
 ## Notes
 If the Karafun remote site disconnects from the Karafun app, or loses its connection to Streamer.bot, then the triggers won't occur until the site reconnects.
