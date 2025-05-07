@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Scrape Karafun Remote Song Info
 // @namespace    http://tampermonkey.net/
-// @version      2025-05-05
+// @version      2025-05-06
 // @updateURL    https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js
 // @downloadURL  https://github.com/WhazzItToYa/StreamerbotKarafun/raw/refs/heads/main/WhazzKarafun.user.js
 // @supportURL   https://github.com/WhazzItToYa/StreamerbotKarafun/issues
