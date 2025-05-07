@@ -22,7 +22,7 @@
     console.log("STARTING");
 
     let sbot;
-    function initSBot(host, port)
+    function initSBot(host, port, path)
     {
         if (sbot != null)
         {
@@ -32,11 +32,14 @@
         try {
             GM_setValue("sbotHost", host);
             GM_setValue("sbotPort", port);
+            GM_setValue("sbotPath", path);
             
             console.log("Before sbot");
             sbot = new StreamerbotClient({
                 host: host,
                 port: port,
+                endpoint: path,
+                
                 onConnect: () => {connected = true;},
                 onDisconnect: () => {connected = false;}
             });
@@ -48,7 +51,8 @@
 
     let initialHost = GM_getValue("sbotHost", "127.0.0.1");
     let initialPort = GM_getValue("sbotPort", 8080);
-    initSBot(initialHost, initialPort);
+    let initialPath = GM_getValue("sbotPath", "/");
+    initSBot(initialHost, initialPort, initialPath);
     
     let songInfoElt = null;
 
@@ -161,7 +165,7 @@
       .dialog label {
          display: inline-block;
          text-align: right;
-         min-width: 4em;
+         min-width: 5em;
       }
       .dialog [type="button"] {
          border: solid black 1px;
@@ -182,6 +186,7 @@
              <h2>Streamer.bot websocket</h2>
              <div><label for="sbServer">address:</label><input id="sbServer" type="text" value="127.0.0.1"></div>
              <div><label for="sbPort">port:</label><input id="sbPort" type="number" min="1" max="65535" step="1" value="8080"></div>
+             <div><label for="sbPort">endpoint:</label><input id="sbPath" type="text" value="/"></div>
              <div><input type="button" id="sbotConfigOK" value="OK"></div>
           </div>
     </div>
@@ -191,6 +196,7 @@
             // Open/close/process streamer.bot websocket config dialog
             document.getElementById("sbServer").value = initialHost;
             document.getElementById("sbPort").value = initialPort;
+            document.getElementById("sbPath").value = initialPath;
 
             let sbotStatusIcon = document.getElementById("sbotStatusIcon");
             let sbotConfig = document.getElementById("sbotConfig");
@@ -203,7 +209,8 @@
                     // Process the new values
                     let addr = document.getElementById("sbServer").value;
                     let port = document.getElementById("sbPort").value;
-                    initSBot(addr, port);
+                    let path = document.getElementById("sbPath").value;
+                    initSBot(addr, port, path);
                 } else {
                     sbotConfig.style.display = "block";
                     console.log("vis: block");
