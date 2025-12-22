@@ -43,6 +43,9 @@
                 onConnect: () => {connected = true;},
                 onDisconnect: () => {connected = false;}
             });
+
+            sbot.on('General.Custom', handleControlEvent);
+            
             console.log("After sbot");
         } catch (e) {
             console.log(e);
@@ -54,21 +57,30 @@
     let initialPath = GM_getValue("sbotPath", "/");
     initSBot(initialHost, initialPort, initialPath);
     
-    let songInfoElt = null;
-
     let latestSong = "";
     let latestArtist = "";
 
+    let prevScraped = false;
+    
     function scrapeSongInfo()
     {
         // Look for the element that has the current song info.
-        songInfoElt = document.querySelector('button.touch-manipulation.transition-all');
+        let songInfoElt = document.querySelector('button.touch-manipulation.transition-all');
         if (songInfoElt == null) {
             console.log("Didn't find current song element");
             updateStatus(connected, false);
+            prevScraped = false;
             // Do something to indicate that the script can't find what it's looking for.
             return;
         }
+        if (!prevScraped) {
+            // If we're finding the song info element after not having found it the previous time,
+            // for example, the remote control page times out and the user rejoins the session,
+            // then the cached control buttons have probably become invalid.
+            findButtons();
+        }
+        prevScraped = true;
+        
         updateStatus(connected, true);
 
         // Found it.  Find the song/artist.
@@ -87,6 +99,9 @@
             song !== "" && artist !== "" &&
             (song !== latestSong || artist !== latestArtist))
         {
+            // When the song changes, the control buttons can change too.
+            findButtons();
+
             latestSong = song;
             latestArtist = artist;
             console.log(`new artist "${artist}", song "${song}"`);
@@ -190,7 +205,7 @@
              <div><input type="button" id="sbotConfigOK" value="OK"></div>
           </div>
     </div>
-`
+`;
             document.body.appendChild(statusElt);
 
             // Open/close/process streamer.bot websocket config dialog
@@ -231,4 +246,96 @@
         }
     }
 
+    let keyResetButton = null;
+    let keyDownButton = null;
+    let keyUpButton = null;
+    let tempoResetButton = null;
+    let tempoDownButton = null;
+    let tempoUpButton = null;
+
+    // Finds all the buttons that control key & tempo.
+    function findButtons() {
+        // The structure is simple & straightforward, but there are very few specific
+        // attributes or elements to search for. Since the text labels are localized,
+        // can't even look for the text.
+        //
+        // <div> = controlDiv
+        //   <div> = keyDiv
+        //     <button>Tonart</button> = keyResetButton
+        //     <div>
+        //       <button type="button"> = keyDownButton
+        //         <svg>
+        //           <use href="#icon-minus" />
+        //         </svg>
+        //       </button>
+        //       <p>0</p>
+        //       <button type="button"> = keyUpButton
+        //         <svg>
+        //           <use href="#icon-plus">
+        //           </use>
+        //         </svg>
+        //       </button>
+        //     </div>
+        //   </div>
+        //   <div> = tempoDiv
+        //     <button>Tempo</button> = tempoResetButton
+        //     <div>
+        //       <button type="button"> = tempoDownButton
+        //         <svg>
+        //           <use href="#icon-minus">
+        //           </use>
+        //         </svg>
+        //       </button>
+        //       <p> 0% </p>
+        //       <button type="button"> = tempoUpButton
+        //         <svg>
+        //           <use href="#icon-plus" />
+        //         </svg>
+        //       </button>
+        //     </div>
+        //   </div>
+        // </div>
+
+        try {
+            console.log("Trying to find control buttons");
+            // Look for a div(div(button, div(button+, button-)))
+            let controlDiv = document.querySelector("div:has(> div > div > button > svg > use[href='#icon-minus']):has(> div > div > button > svg > use[href='#icon-plus']):has(> div > button)");
+            let keyGroup = controlDiv.querySelector(":scope > div:nth-of-type(1)");
+            let tempoGroup = controlDiv.querySelector(":scope > div:nth-of-type(2)");
+
+            keyResetButton = keyGroup.querySelector(":scope > button");
+            console.log(`Found key reset button: ${keyResetButton}`);
+            tempoResetButton = tempoGroup.querySelector(":scope > button");
+            console.log(`Found tempo reset button: ${tempoResetButton}`);
+
+            keyDownButton = keyGroup.querySelector("button:has(svg > use[href='#icon-minus'])");
+            console.log(`Found key down button: ${keyDownButton}`);
+            keyUpButton = keyGroup.querySelector("button:has(svg > use[href='#icon-plus'])");
+            console.log(`Found key up button: ${keyUpButton}`);
+            tempoDownButton = tempoGroup.querySelector("button:has(svg > use[href='#icon-minus'])");
+            console.log(`Found tempo down button: ${tempoDownButton}`);
+            tempoUpButton = tempoGroup.querySelector("button:has(svg > use[href='#icon-plus'])");
+            console.log(`Found tempo up button: ${tempoUpButton}`);
+        } catch (e) {
+            console.log("Could not complete finding the control buttons", e);
+        }
+    }
+
+    function handleControlEvent({data}) {
+        console.log("Got event", data);
+        if (data.event !== "WhazzKarafun") return;
+        let button = null;
+        switch (data.command)
+        {
+            case "KeyReset"   : button = keyResetButton;   break;
+            case "KeyDown"    : button = keyDownButton;    break;
+            case "KeyUp"      : button = keyUpButton;      break;
+            case "TempoReset" : button = tempoResetButton; break;
+            case "TempoDown"  : button = tempoDownButton;  break;
+            case "TempoUp"    : button = tempoUpButton;    break;
+            default: return;
+        }
+        button.click();
+    }
+    
 })();
