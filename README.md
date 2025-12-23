@@ -1,3 +1,7 @@
+# Karafun Streamer.bot Integration
+
+This extension connects the karaoke app [Karafun](https://www.karafun.com) to [Streamer.bot](https://streamer.bot), allowing streamer.bot actions to be notified of the current song being played, and streamer.bot to control the song playback.
+
 ## Installation and Setup
 1. In your browser, install the [Tampermonkey extension](https://www.tampermonkey.net/). Greasemonkey or other user script extensions *might* work, but it's only been tested with Tampermonkey in Firefox.
 2. Install the WhazzKarafun.user.js script into it by clicking on the [raw version stored in Github](https://github.com/WhazzItToYa/Streamerbot-Karafun/raw/refs/heads/main/WhazzKarafun.user.js). The extension should come up and offer to install it. Click "(Re)Install"
