@@ -5,7 +5,7 @@ This extension connects the karaoke app [Karafun](https://www.karafun.com) to [S
 ## Installation and Setup
 1. In your browser, install the [Tampermonkey extension](https://www.tampermonkey.net/). Greasemonkey or other user script extensions *might* work, but it's only been tested with Tampermonkey in Firefox.
 2. Install the WhazzKarafun.user.js script into it by clicking on the [raw version stored in Github](https://github.com/WhazzItToYa/Streamerbot-Karafun/raw/refs/heads/main/WhazzKarafun.user.js). The extension should come up and offer to install it. Click "(Re)Install"
-3. Import the [WhazzKarafun.sb](https://raw.githubusercontent.com/WhazzItToYa/Streamerbot-Karafun/refs/heads/main/WhazzKarafun.sb) import string into Streamer.bot as normal
+3. Import the [WhazzKarafun.sb](https://raw.githubusercontent.com/WhazzItToYa/Streamerbot-Karafun/refs/heads/main/WhazzKarafun.sb) import string into Streamer.bot [as normal](https://docs.streamer.bot/guide/import-export#import)
 4. In Streamer.bot, make sure you have the websocket server enabled under Servers/Clients > Websocket Server, on port 8080[*](#Configuration)
 
 ## Usage
