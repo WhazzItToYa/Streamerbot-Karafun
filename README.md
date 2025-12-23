@@ -30,14 +30,14 @@ The integration can control certain aspects of the Karafun app from Streamer.bot
 
 #### Key and Tempo
 
-You can use various [Execute Method](https://docs.streamer.bot/api/sub-actions/core/csharp/execute-csharp-method) subaction on "Karafun Integration" to change the Key and Tempo of the currently playing song:
+You can use the [Execute Method](https://docs.streamer.bot/api/sub-actions/core/csharp/execute-csharp-method) subaction to run various "Karafun Integration" methods to change the Key and Tempo of the currently playing song:
 * `KeyUp`/`KeyDown` : Changes the key by one half-step
 * `KeyReset` : Sets the key back to the song's native key.
 * `TempoUp`/`TempoDown` : Increases or decreases the tempo.
 * `TempoReset` : Sets the tempo back to the native tempo.
 
 ##### Did you know?
-The Karafun app can store your preferred key & tempo.
+The Karafun app can remember your key & tempo preferences for a song. Follow the [instructions here](https://www.karafun.com/help/video-tutorials_372.html).
 
 ### Status Icon
 ![GoodStatus](assets/goodstatus.png "Good Status indicator")
