@@ -8,7 +8,7 @@
 
 After opening the Karafun app, to activate the integration with Streamer.bot, press the Karafun app's remote-control button, and open the link in your browser.
 ![RemoteControl](assets/remoteControl.png "Remote Control Button")
-The integration gets its information from the remote control page, so keep it open while you are singing. There is a status box in the lower-left indicating whether the userscript is working, and connected to streamer.bot. See [Status Icon](#Status Icon) and [Configuration](#Configuration) for more details.
+The integration gets its information from the remote control page, so keep it open while you are singing. There is a status box in the lower-left indicating whether the userscript is working, and connected to streamer.bot. See [Status Icon](#Status-Icon) and [Configuration](#Configuration) for more details.
 
 ### Triggers
 
